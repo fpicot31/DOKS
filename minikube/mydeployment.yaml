@@ -1,14 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: nginx-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: nginx
-      matchExpressions:
-        - { key : version, operator: In, value: ["1.25", "1.24"] }
   template:
     metadata:
       labels:
@@ -16,6 +14,6 @@ spec:
     spec:
       containers:
       - name: nginx-container
-        image: nginx:alpine
+        image: nginx:1.22
         ports:
         - containerPort: 80
