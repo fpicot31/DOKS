@@ -1,0 +1,48 @@
+minikube start 
+
+minikube addons enable metrics-server
+
+# on doit avoir un container minikube de lancé
+docker ps
+
+# voir le dashboard
+minikube dashboard
+
+# deployer
+kubectl  apply -f mydeployment.yaml
+kubectl  get all
+kubectl  describe pod nginx-796697f854-xbfhb
+kubectl  get pod nginx-796697f854-xbfhb -o json
+
+kubectl  apply -f mypodLabel.yaml
+kubectl get pod -l "version=1.25,tier=frontend"
+kubectl get pod -l "version=1.25,tier in (frontend,backend) "
+
+# replicaset
+kubectl  apply -f myrepicaset.yaml 
+kubectl  describe rs
+
+kubectl  describe  pod nginx-6clts
+kubectl  get pod
+kubectl  delete pod nginx-6clts
+kubectl  get pod
+
+
+# retrouver les pods d'un replicaset avec le hash
+kubectl  apply -f mynewdeployment.yaml
+kubectl  get all
+kubectl  get rs --show-labels
+kubectl  get pod --show-labels
+
+# mise a jour en changeant la version 1.24 a un 1.25 dans mynewdeployment.yaml
+kubectl  get all
+kubectl describe deployments.apps 
+kubectl rollout history deployment
+kubectl annotate deployment.apps nginx-deployment kubernetes.io/change-cause="utilisation de nginx 1.25"
+kubectl rollout history deployment
+kubectl rollout history deployment --revision=2
+
+# mise a jour avec crash n changeant la version 1.25 a coucou dans mynewdeployment.yaml
+kubectl  get all     // 0 pod READY
+kubectl  get pods   //ImagePullBackOff
+kubectl rollout undo deployment
