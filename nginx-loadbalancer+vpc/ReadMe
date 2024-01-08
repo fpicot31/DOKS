@@ -1,44 +1,39 @@
 # connection sur k8s digital ocean
 create le cluster sur https://cloud.digitalocean.com
 download du fichier de config dans ~/.kube/config
-kubectl get nodes // liste  les nodes du cluster
-kubectl config view // visualise la config entiere
+kubectl get nodes # liste  les nodes du cluster
+kubectl config view # visualise la config entiere
 kubectl config get-contexts 
-kubectl config use-context do-fra1-k8s-1-28-2-do-0-fra1-1702225024742  // utilisation du cluter de digitalocean
+kubectl config use-context do-fra1-k8s-1-28-2-do-0-fra1-1702225024742  # utilisation du cluter de digitalocean
 
 # creer pvc, le deplyement, le load balancer
 kubectl apply -f nginx-pvc.yaml
-kubectl get pvc  // regarder dans digital ocean si le pvc est cree
+kubectl get pvc  # regarder dans digital ocean si le pvc est cree
 kubectl apply -f nginx-deployment.yaml
 kubectl apply -f nginx-service-lb.yaml
-kubectl get pod // le pod est running
+kubectl get pod # le pod est running
 
 # envoyer des logs dans nginx avec l'IP EXTERNAL
-kubectl get service -w   
-curl http://ip externe  // plusieurs fois
+kubectl get service -w   # attendre que le load balancer soit ok avec une external IP
+curl http://ip externe  # plusieurs fois
 kubectl get pod
-kubectl exec nginx-deployment-675b8d79ff-9sckh -- cat /var/log/nginx/access.log
+kubectl exec nginx-deployment-675b8d79ff-9sckh -- tail -f /var/log/nginx/access.log
 (ou kubectl exec -it nginx-deployment-id du pod  -- sh
 cat /var/log/nginx/access.log
-exit)
+exit
 
 kubectl delete -f nginx-deployment.yaml 
 kubectl delete -f nginx-service-lb.yaml 
 
-kubectl get pvc // existe toujours
+kubectl get pvc # le volume existe toujours
 
 kubectl apply -f nginx-deployment.yaml 
 kubectl apply -f nginx-service-lb.yaml 
 
 
-(kubectl delete pod  nginx-deployment-id du pod  // recree automatiquement
+kubectl delete pod  nginx-deployment-id du pod  # recree le pod automatiquement
 kubectl exec -it nginx-deployment-id du pod  -- sh
-cat /var/log/nginx/access.log  // on retrouve les logs a la suite
+cat /var/log/nginx/access.log  # on retrouve les logs a la suite
 kubectl delete deployments.app nginx-deployment
 kubectl delete service nginx-loadbalancer
-kubectl get pvc // existe toujours)
-
-
-
-
-
+kubectl get pvc # le volume existe toujours

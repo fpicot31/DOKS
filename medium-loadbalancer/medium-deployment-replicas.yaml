@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: nginx-medium-container
-        image: atos06/project1-html
+        image: atos06/medium
         ports:
         - containerPort: 80

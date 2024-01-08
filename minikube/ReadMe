@@ -9,7 +9,7 @@ docker ps
 minikube dashboard
 
 # deployer
-kubectl  apply -f mydeployment.yaml
+  apply -f mydeployment.kubectlyaml
 kubectl  get all
 kubectl  describe pod nginx-796697f854-xbfhb
 kubectl  get pod nginx-796697f854-xbfhb -o json

@@ -1,0 +1,11 @@
+
+# creer l'image cook sur le docker hub
+docker build -t atos06/cook -f ./cook/Dockerfile .
+docker run -d --nam -p 8081:80 atos06/cook
+docker push  atos06/cook
+
+
+# creer l'image medium  sur le docker ub
+docker build -t atos06/medium -f ./medium/Dockerfile .
+docker run -d --nam -p 8082:80 atos06/medium
+docker push  atos06/medium 
