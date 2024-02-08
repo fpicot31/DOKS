@@ -1,5 +1,5 @@
 
-# creer l'image cook sur le docker hub
+# Creer l'image cook sur le docker hub
 docker build -t atos06/cook -f ./cook/Dockerfile .
 docker run -d --nam -p 8081:80 atos06/cook
 docker push  atos06/cook
