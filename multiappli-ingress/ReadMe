@@ -1,0 +1,45 @@
+
+# On veut les appli html et react dans un cluster avec 2 DNS LWS differents
+
+
+# Construire l'image et la mettre dans le docker hub
+cd app
+docker build -t  atos06/cook .
+docker push atos06/cook
+docker build -t  atos06/medium .
+docker push atos06/medium
+
+
+# supprimer le service load-balancer si besoin
+cd ../project1-html
+kubectl config current-context
+kubectl delete service medium-loadbalancer
+
+# creer les fichiers : ingress, services et deploiement pour medium, react
+# cformidable-ingress, react-deployment, react-service, medium-deployment, medium-service
+
+# aller sur digital ocean et installer NGINX Ingress controller
+# verifier que c est creer dans le name space ingress-nginx
+kubectl get all -n ingress-nginx
+kubectl get ingressClass
+
+# demarrer
+kubectl apply -f react-deployment.aml
+kubectl apply -f react-service.aml
+kubectl apply -f medium-service.aml
+kubectl get pods
+kubectl apply -f cformidable-ingress.aml
+
+# recuperer l'EXTERNAL IP du load balancer
+kubectl get svc -n ingress-nginx
+
+# affecter sur lws l'IP aux 2 noms de domaines du fichier cformidable-ingress.yaml : nginx-cformidable.site et nginx-cformidable.fr
+
+# ouvrir le navigateur et entrer tour a tour chaque nom de domaine : on switch bien d'una appli a l'autre
+
+# sur digital ocean : detruire le cluster
+
+
+
+
+

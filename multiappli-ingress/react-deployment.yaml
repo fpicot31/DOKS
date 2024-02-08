@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-react
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-react
+  template:
+    metadata:
+      labels:
+        app: nginx-react
+    spec:
+      containers:
+      - name: nginx-react-container
+        image: atos06/cook
+        ports:
+        - containerPort: 80

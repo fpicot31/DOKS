@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cformidable-ingress
+spec:
+    ingressClassName: nginx
+    rules:
+      - host: "nginx-cformidable.store"
+        http:
+          paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: medium-service
+                port:
+                  number: 80
+      - host: "nginx-cformidable.fr"
+        http:
+          paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: react-service
+                port:
+                  number: 80
